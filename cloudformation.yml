@@ -16,7 +16,7 @@ Resources:
       - MetricValue: 1
         MetricNamespace: !Sub "${AWS::StackName}"
         MetricName: AccessDenieds
-  ConsoleLoginAlarm:
+  AccessDeniedAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
       ComparisonOperator: GreaterThanThreshold
