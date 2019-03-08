@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  CloudTrailLogGroup:
+    Type: String
+    Description: "The CloudWatch log group where CloudTrail writes the logs"
+  SNSTopic:
+    Type: String
+    Description: "The SNS topic to send notifications to"
+Resources:
+  LoginMetricFilter:
+    Type: AWS::Logs::MetricFilter
+    Properties:
+      LogGroupName: !Ref CloudTrailLogGroup
+      FilterPattern: '{$.errorCode = "AccessDenied"}'
+      MetricTransformations:
+      - MetricValue: 1
+        MetricNamespace: !Sub "${AWS::StackName}"
+        MetricName: AccessDenieds
+  ConsoleLoginAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      ComparisonOperator: GreaterThanThreshold
+      EvaluationPeriods: 1
+      Threshold: 0
+      Namespace: !Sub "${AWS::StackName}"
+      MetricName: AccessDenieds
+      Statistic: Maximum
+      Period: 60
+      TreatMissingData: notBreaching
+      ActionsEnabled: true
+      AlarmActions:
+      - !Ref SNSTopic
