@@ -30,3 +30,6 @@ Resources:
       ActionsEnabled: true
       AlarmActions:
       - !Ref SNSTopic
+Outputs:
+  LogsURL:
+    Value: !Sub "https://${AWS::Region}.console.aws.amazon.com/cloudwatch/home#logEventViewer:group=${CloudTrailLogGroup};filter=%257B%2524.errorCode%2520%253D%2520%2522AccessDenied%2522%257D}"
