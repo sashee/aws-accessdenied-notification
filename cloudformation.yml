@@ -32,4 +32,6 @@ Resources:
       - !Ref SNSTopic
 Outputs:
   LogsURL:
-    Value: !Sub "https://${AWS::Region}.console.aws.amazon.com/cloudwatch/home#logEventViewer:group=${CloudTrailLogGroup};filter=%257B%2524.errorCode%2520%253D%2520%2522AccessDenied%2522%257D}"
+    Value: !Sub
+    - "https://${AWS::Region}.console.aws.amazon.com/cloudwatch/home#logsV2:log-groups/log-group/${CloudTrailLogGroupEscaped}/log-events/$3FfilterPattern$3D$257B$2524.errorCode+$253D+$2522AccessDenied$2522+$2526$2526+$2528$2524.userIdentity.type+$2521$253D+$2522AWSAccount$2522+$257C$257C+$2524.userIdentity.principalId+$2521$253D+$2522$2522$2529$257D"
+    - CloudTrailLogGroupEscaped: !Join [ '$252F', !Split [ '/', !Ref CloudTrailLogGroup ] ]
