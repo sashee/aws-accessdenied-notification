@@ -11,7 +11,7 @@ Resources:
     Type: AWS::Logs::MetricFilter
     Properties:
       LogGroupName: !Ref CloudTrailLogGroup
-      FilterPattern: '{$.errorCode = "AccessDenied"}'
+      FilterPattern: '{$.errorCode = "AccessDenied" && ($.userIdentity.type != "AWSAccount" || $.userIdentity.principalId != "")}'
       MetricTransformations:
       - MetricValue: 1
         MetricNamespace: !Sub "${AWS::StackName}"
